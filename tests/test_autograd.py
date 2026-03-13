@@ -1,4 +1,4 @@
-from src import Tensor
+from src.tensorNikq import Tensor
 
 # ----- UNARY -----
 

@@ -1,4 +1,4 @@
-from src.data_ops import *
+from src.tensorNikq.data_ops import *
 import math
 import pytest
 
