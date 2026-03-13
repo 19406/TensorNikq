@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tensorNikq"
+version = "0.1.0"
+description = "Mini tensor with autograd"
+authors = [
+  {name="Tôn Võ Hoài Khiêm"}
+]
+readme = "README.md"
+requires-python = ">=3.9"
+
+[tool.setuptools.packages.find]
+where = ["src"]
