@@ -159,6 +159,12 @@ class Tensor:
         return Reshape.apply(self, new_shape)
 
     # ---------- Autograd ----------
+    
     def backward(self, grad=None):
         backward(self, grad)
+        
+    # ---------- Hardware ----------
     
+    def to(self, device):
+        if device != "cpu": raise NotImplementedError("Only CPU supported!")
+        return self

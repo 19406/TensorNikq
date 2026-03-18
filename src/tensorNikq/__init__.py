@@ -8,6 +8,7 @@
 from .tensor import Tensor
 from .data_ops import *
 from .function_ops import *
+from .functional import *
 
 __all__ = [
     "Tensor",
@@ -20,5 +21,6 @@ __all__ = [
     "Neg", "Sum",
     "Add", "Sub", "Mul", "Div",
     "Transpose", "Reshape",
-    "MatMul"
+    "MatMul",
+    "randint", "randn", "stack", "cat", "zeros", "ones"
 ]
