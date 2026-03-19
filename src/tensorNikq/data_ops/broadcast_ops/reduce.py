@@ -1,4 +1,4 @@
-from ..math_ops.binary_ops import elementwise_add
+from ..arith_logic_ops.binary_ops import elementwise_add
 
 def shape_after_sum(shape, dim=None, keepdim=False):
     if dim is None:
@@ -34,14 +34,11 @@ def sum_dim(data, dim=None, keepdim=False):
             ndim = 0
         else:
             result = sum_dim(data[0])
-            for d in data[1:]:
-                result = elementwise_add(result, sum_dim(d))
+            for d in data[1:]: result = elementwise_add(result, sum_dim(d))
             ndim = _get_ndim(data)
 
         if keepdim:
-            for _ in range(ndim):
-                result = [result]
-
+            for _ in range(ndim): result = [result]
         return result
     
     if dim == 0:

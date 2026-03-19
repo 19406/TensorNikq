@@ -23,6 +23,66 @@ def test_exp():
     a = [1, 2, 3]
     b = elementwise_exp(a)
     assert b == [2.718281828459045, 7.38905609893065, 20.085536923187668]
+    
+def test_sum_dim_no_keepdim():
+    a = [[1, 2, 3], [4, 5, 6]]
+    b = sum_dim(a)
+    assert b == 21
+    
+def test_sum_dim_keepdim():
+    a = [[1, 2, 3], [4, 5, 6]]
+    b = sum_dim(a, keepdim=True)
+    assert b == [[21]]
+    
+def test_sum_dim_0_no_keepdim():
+    a = [[1, 2, 3], [4, 5, 6]]
+    b = sum_dim(a, 0)
+    assert b == [5, 7, 9]
+    
+def test_sum_dim_0_keepdim():
+    a = [[1, 2, 3], [4, 5, 6]]
+    b = sum_dim(a, 0, keepdim=True)
+    assert b == [[5, 7, 9]]
+    
+def test_sum_dim_1_no_keepdim():
+    a = [[1, 2, 3], [4, 5, 6]]
+    b = sum_dim(a, 1)
+    assert b == [6, 15]
+    
+def test_sum_dim_1_keepdim():
+    a = [[1, 2, 3], [4, 5, 6]]
+    b = sum_dim(a, 1, keepdim=True)
+    assert b == [[6], [15]]
+    
+def test_max_dim_no_keepdim():
+    a = [[1, 2, 3], [4, 5, 6]]
+    b = max_dim(a)
+    assert b == 6
+    
+def test_max_dim_keepdim():
+    a = [[1, 2, 3], [4, 5, 6]]
+    b = max_dim(a, keepdim=True)
+    assert b == [[6]]
+    
+def test_max_dim_0_no_keepdim():
+    a = [[1, 2, 3], [4, 5, 6]]
+    b = max_dim(a, 0)
+    assert b == [4, 5, 6]
+    
+def test_sum_dim_0_keepdim():
+    a = [[1, 2, 3], [4, 5, 6]]
+    b = max_dim(a, 0, keepdim=True)
+    assert b == [[4, 5, 6]]
+    
+def test_sum_dim_1_no_keepdim():
+    a = [[1, 2, 3], [4, 5, 6]]
+    b = max_dim(a, 1)
+    assert b == [3, 6]
+    
+def test_sum_dim_1_keepdim():
+    a = [[1, 2, 3], [4, 5, 6]]
+    b = max_dim(a, 1, keepdim=True)
+    assert b == [[3], [6]]
 
 # ----- BINARY -----
 
@@ -55,6 +115,18 @@ def test_safe_div():
     b = [4, 0, 6]
     c = elementwise_div(a, b)
     assert c == [0.25, math.inf, 0.5]
+    
+def test_max():
+    a = [1, 5, 9]
+    b = [4, 2, 3]
+    c = elementwise_max(a, b)
+    assert c == [4, 5, 9]
+
+def test_min():
+    a = [1, 5, 9]
+    b = [4, 2, 3]
+    c = elementwise_min(a, b)
+    assert c == [1, 2, 3]
     
 # ----- TENSORIAL -----
 

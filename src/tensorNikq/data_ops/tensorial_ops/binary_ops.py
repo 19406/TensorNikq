@@ -1,4 +1,4 @@
-from ..broadcast_ops import broadcast_shape, infer_batch_matmul_shape
+from ..broadcast_ops import infer_batch_matmul_shape
 
 # ---------- Matrix Multiplication ----------
 

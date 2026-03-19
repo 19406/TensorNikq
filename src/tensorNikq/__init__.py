@@ -9,6 +9,7 @@ from .tensor import Tensor
 from .data_ops import *
 from .function_ops import *
 from .functional import *
+from .neural_networks import *
 
 __all__ = [
     "Tensor",
@@ -22,5 +23,6 @@ __all__ = [
     "Add", "Sub", "Mul", "Div",
     "Transpose", "Reshape",
     "MatMul",
-    "randint", "randn", "stack", "cat", "zeros", "ones"
+    "randint", "randn", "stack", "cat", "zeros", "ones",
+    "Module", "Linear", "Dropout"
 ]

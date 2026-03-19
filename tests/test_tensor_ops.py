@@ -24,6 +24,26 @@ def test_Neg_multidim():
     b = -a
     assert str(b) == "Tensor(data=[[[-7, 56, -18], [5, 13, -6]], [[12, 61, -8], [-73, 34, -49]], [[-23, 1, 59], [-38, 29, -10]]], shape=(3, 2, 3))"
     
+def test_Exp_scalar():
+    a = Tensor(7)
+    b = a.exp()
+    assert str(b) == "Tensor(data=1096.6332, shape=())"
+    
+def test_Exp_vector():
+    a = Tensor([1, 2, 3])
+    b = a.exp()
+    assert str(b) == "Tensor(data=[2.7183, 7.3891, 20.0855], shape=(3))"
+    
+def test_Exp_matrix():
+    a = Tensor([[1, 2, 3], [4, 5, 6]])
+    b = a.exp()
+    assert str(b) == "Tensor(data=[[2.7183, 7.3891, 20.0855], [54.5982, 148.4132, 403.4288]], shape=(2, 3))"
+    
+def test_Exp_multidim():
+    a = Tensor([[[1, 2, 3], [4, 5, 6]], [[7, 8, 9], [10, 11, 12]], [[13, 14, 15], [16, 17, 18]]])
+    b = a.exp()
+    assert str(b) == "Tensor(data=[[[2.7183, 7.3891, 20.0855], [54.5982, 148.4132, 403.4288]], [[1096.6332, 2980.958, 8103.0839], [22026.4658, 59874.1417, 162754.7914]], [[442413.392, 1202604.2842, 3269017.3725], [8886110.5205, 24154952.7536, 65659969.1373]]], shape=(3, 2, 3))"
+    
 def test_Sum_no_keepdim():
     a = Tensor([[1, 2, 3], [4, 5, 6]])
     b = a.sum()
@@ -43,6 +63,56 @@ def test_Sum_dim_0_keepdim():
     a = Tensor([[1, 2, 3], [4, 5, 6]])
     b = a.sum(0, keepdim=True)
     assert str(b) == "Tensor(data=[[5, 7, 9]], shape=(1, 3))"
+    
+def test_Sum_dim_1_no_keepdim():
+    a = Tensor([[1, 2, 3], [4, 5, 6]])
+    b = a.sum(1)
+    assert str(b) == "Tensor(data=[6, 15], shape=(2))"
+
+def test_Sum_dim_1_keepdim():
+    a = Tensor([[1, 2, 3], [4, 5, 6]])
+    b = a.sum(1, keepdim=True)
+    assert str(b) == "Tensor(data=[[6], [15]], shape=(2, 1))"
+    
+def test_Max_no_keepdim():
+    a = Tensor([[1, 5, 2], [4, 7, 3]])
+    b = a.max()
+    assert str(b) == "Tensor(data=7, shape=())"
+    
+def test_Max_keepdim():
+    a = Tensor([[1, 5, 2], [4, 7, 3]])
+    b = a.max(keepdim=True)
+    assert str(b) == "Tensor(data=[[7]], shape=(1, 1))"
+
+def test_Max_dim_0_no_keepdim():
+    a = Tensor([[1, 5, 2], [4, 7, 3]])
+    b = a.max(0)
+    assert str(b) == "Tensor(data=[4, 7, 3], shape=(3))"
+
+def test_Max_dim_0_keepdim():
+    a = Tensor([[1, 5, 2], [4, 7, 3]])
+    b = a.max(0, keepdim=True)
+    assert str(b) == "Tensor(data=[[4, 7, 3]], shape=(1, 3))"
+    
+def test_Max_dim_1_no_keepdim():
+    a = Tensor([[1, 5, 2], [4, 7, 3]])
+    b = a.max(1)
+    assert str(b) == "Tensor(data=[5, 7], shape=(2))"
+
+def test_Max_dim_1_keepdim():
+    a = Tensor([[1, 5, 2], [4, 7, 3]])
+    b = a.max(1, keepdim=True)
+    assert str(b) == "Tensor(data=[[5], [7]], shape=(2, 1))"
+    
+def test_Max_dim_minus_1_no_keepdim():
+    a = Tensor([[1, 5, 2], [4, 7, 3]])
+    b = a.max(-1)
+    assert str(b) == "Tensor(data=[5, 7], shape=(2))"
+
+def test_Max_dim_minus_1_keepdim():
+    a = Tensor([[1, 5, 2], [4, 7, 3]])
+    b = a.max(-1, keepdim=True)
+    assert str(b) == "Tensor(data=[[5], [7]], shape=(2, 1))"
 
 # ----- BINARY -----
 
@@ -206,6 +276,11 @@ def test_Matmul_by_matmul_function():
 
 # ----- ERROR -----
 
+def test_error_max_negative_dim():
+    with pytest.raises(ValueError, match="Specified dim index is out of range!"):
+        a = Tensor([[1, 2, 3], [4, 5, 6]])
+        b = a.max(-3)
+ 
 def test_error_Transpose_scalar():
     with pytest.raises(ValueError, match="Transpose only supports 2D tensor!"):
         a = Tensor(1)

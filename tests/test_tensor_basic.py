@@ -1,5 +1,6 @@
 from src.tensorNikq import Tensor
 import pytest
+import re
 
 # ---------- Scalar Tensor ----------
 
@@ -144,6 +145,19 @@ def test_multidim_tensor_get_item():
     item = t[1]
     assert str(item) == "Tensor(data=[[5, 6], [7, 8]], shape=(2, 2))"
     
+# ----- OTHER UTILS -----
+
+def test_len_vector():
+    t = Tensor([1, 2, 3, 4, 5, 6, 7])
+    assert len(t) == 7
+
+def test_len_matrix():
+    t = Tensor([[1, 2], [3, 4], [5, 6], [7, 8]])
+    assert len(t) == 4
+
+def test_to():
+    t = Tensor([])
+    
 # ----- TENSOR ERROR -----
 
 def test_error_ragged_tensor_shape():
@@ -174,3 +188,13 @@ def test_error_scalar_tensor_get_item():
     with pytest.raises(IndexError, match="Cannot index a 0-dim tensor!"):
         t = Tensor(1)
         item = t[0]
+        
+def test_error_device():
+    with pytest.raises(NotImplementedError, match="Only CPU supported!"):
+        t = Tensor(1)
+        t.to("cuda")
+        
+def test_error_len_scalar():
+    with pytest.raises(TypeError, match=re.escape("len() of a 0-dimensional tensor is not allowed!")):
+        t = Tensor(7)
+        a = len(t)

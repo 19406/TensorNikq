@@ -80,11 +80,13 @@ class Tensor:
         t._prev = {self}
         return t
 
-    # ---------- Element-wise Operatations ----------
+    # ---------- Operatations ----------
     
     # Negation
-    def __neg__(self):
-        return Neg.apply(self)
+    def __neg__(self): return Neg.apply(self)
+    
+    # Exp
+    def exp(self): return Exp.apply(self)
     
     # Addition
     def __add__(self, other):
@@ -117,6 +119,28 @@ class Tensor:
     def __rtruediv__(self, other):
         other = utils.ensure_tensor(other)
         return other.__truediv__(self)
+    
+    # ---------- Comparisons ----------
+    
+    # Greater than
+    def __gt__(self, other):
+        other = utils.ensure_tensor(other)
+        return GreaterThan.apply(self, other)
+    
+    # Greater than or equal
+    def __ge__(self, other):
+        other = utils.ensure_tensor(other)
+        return GreaterOrEqual.apply(self, other)
+    
+    # Less than
+    def __lt__(self, other):
+        other = utils.ensure_tensor(other)
+        return LessThan.apply(self, other)
+    
+    # Less than or equal
+    def __le__(self, other):
+        other = utils.ensure_tensor(other)
+        return LessOrEqual.apply(self, other)
 
     # ---------- Matrix Operatations ----------
 
@@ -157,6 +181,22 @@ class Tensor:
             raise ValueError(f"Cannot reshape tensor of size {total} into shape {new_shape}!")
 
         return Reshape.apply(self, new_shape)
+    
+    # ---------- Model Operations ----------
+    
+    def masked_fill(self, mask, value):
+        return MaskedFill.apply(self, mask, value)
+    
+    def max(self, dim=None, keepdim=False):
+        if dim is not None and dim < 0:
+            dim = len(self.shape) + dim
+            if dim < 0: raise ValueError("Specified dim index is out of range!")
+        return Max.apply(self, dim, keepdim)
+            
+    def softmax(self, dim):
+        m = self.max(dim, keepdim=True)
+        e = (self - m).exp()
+        return e / e.sum(dim, keepdim=True)
 
     # ---------- Autograd ----------
     
@@ -165,6 +205,12 @@ class Tensor:
         
     # ---------- Hardware ----------
     
+    # (This function has no effect)
     def to(self, device):
         if device != "cpu": raise NotImplementedError("Only CPU supported!")
         return self
+    
+    # Return the length of the first dimension of the tensor
+    def __len__(self):
+        if self.ndim == 0: raise TypeError("len() of a 0-dimensional tensor is not allowed!")
+        return self.shape[0]

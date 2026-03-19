@@ -1,5 +1,5 @@
-from .utils import randint, randn, stack, cat, zeros, ones, tril
+from .utils import randint, randn, stack, cat, zeros, ones, tril, rand_like
 
 __all__ = [
-    "randint", "randn", "stack", "cat", "zeros", "ones", "tril"
+    "randint", "randn", "stack", "cat", "zeros", "ones", "tril", "rand_like"
 ]

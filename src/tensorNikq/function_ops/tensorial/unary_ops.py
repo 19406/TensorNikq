@@ -25,5 +25,4 @@ class Reshape(Function):
     def backward(ctx, grad_out):
         original_shape = ctx.original_shape
         
-        print(original_shape)
         return elementwise_reshape(grad_out, original_shape)
